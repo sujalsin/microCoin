@@ -509,7 +509,7 @@ func portfolioHandler(db *sql.DB, orderService *orders.Service) http.HandlerFunc
 		}
 
 		portfolio := models.Portfolio{
-			Balances: balances,
+			Balances:  balances,
 			Positions: []models.Position{}, // TODO: Calculate positions
 			PnL: models.PnL{
 				Realized:   decimal.Zero,

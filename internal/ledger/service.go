@@ -13,9 +13,9 @@ import (
 
 // Service handles ledger business logic
 type Service struct {
-	db              *sql.DB
-	ledgerRepo      *LedgerRepository
-	accountRepo     *database.AccountRepository
+	db          *sql.DB
+	ledgerRepo  *LedgerRepository
+	accountRepo *database.AccountRepository
 }
 
 // NewService creates a new ledger service
@@ -58,7 +58,7 @@ func (s *Service) TopUpUser(userID uuid.UUID, amount decimal.Decimal) (*models.A
 		},
 		{
 			JournalID: journalID,
-			AccountID: uuid.Nil, // System equity account (placeholder)
+			AccountID: uuid.Nil,     // System equity account (placeholder)
 			Amount:    amount.Neg(), // Debit system equity
 			Currency:  models.CurrencyUSD,
 			RefType:   "TOPUP",
@@ -106,7 +106,7 @@ func (s *Service) HoldFunds(userID uuid.UUID, currency models.Currency, amount d
 
 	// Check if sufficient funds are available
 	if account.BalanceAvailable.LessThan(amount) {
-		return fmt.Errorf("insufficient funds: available=%s, required=%s", 
+		return fmt.Errorf("insufficient funds: available=%s, required=%s",
 			account.BalanceAvailable.String(), amount.String())
 	}
 
@@ -145,7 +145,7 @@ func (s *Service) ReleaseHold(userID uuid.UUID, currency models.Currency, amount
 
 	// Check if sufficient funds are held
 	if account.BalanceHold.LessThan(amount) {
-		return fmt.Errorf("insufficient held funds: held=%s, required=%s", 
+		return fmt.Errorf("insufficient held funds: held=%s, required=%s",
 			account.BalanceHold.String(), amount.String())
 	}
 
@@ -189,7 +189,7 @@ func (s *Service) TransferFunds(fromAccountID, toAccountID uuid.UUID, amount dec
 
 	// Check if sufficient funds are available in from account
 	if fromAccount.BalanceAvailable.LessThan(amount) {
-		return fmt.Errorf("insufficient funds in from account: available=%s, required=%s", 
+		return fmt.Errorf("insufficient funds in from account: available=%s, required=%s",
 			fromAccount.BalanceAvailable.String(), amount.String())
 	}
 

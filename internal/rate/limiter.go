@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/redis/go-redis/v9"
 	"github.com/google/uuid"
+	"github.com/redis/go-redis/v9"
 )
 
 // Limiter handles rate limiting using Redis
@@ -28,7 +28,7 @@ func NewLimiter(client *redis.Client, capacity int, refill time.Duration) *Limit
 // Allow checks if a request is allowed for a user
 func (l *Limiter) Allow(ctx context.Context, userID uuid.UUID) (bool, error) {
 	key := fmt.Sprintf("rate:%s", userID.String())
-	
+
 	// Lua script for atomic rate limiting
 	script := `
 		local key = KEYS[1]
@@ -58,15 +58,15 @@ func (l *Limiter) Allow(ctx context.Context, userID uuid.UUID) (bool, error) {
 		redis.call('EXPIRE', key, 60)
 		return 1
 	`
-	
+
 	refillPerSec := float64(l.capacity) / l.refill.Seconds()
 	now := time.Now().UnixMilli()
-	
+
 	result, err := l.client.Eval(ctx, script, []string{key}, l.capacity, refillPerSec, now).Result()
 	if err != nil {
 		return false, fmt.Errorf("failed to execute rate limit script: %w", err)
 	}
-	
+
 	allowed := result.(int64) == 1
 	return allowed, nil
 }
@@ -74,7 +74,7 @@ func (l *Limiter) Allow(ctx context.Context, userID uuid.UUID) (bool, error) {
 // GetRemainingTokens returns the number of remaining tokens for a user
 func (l *Limiter) GetRemainingTokens(ctx context.Context, userID uuid.UUID) (int, error) {
 	key := fmt.Sprintf("rate:%s", userID.String())
-	
+
 	// Lua script to get remaining tokens
 	script := `
 		local key = KEYS[1]
@@ -92,15 +92,15 @@ func (l *Limiter) GetRemainingTokens(ctx context.Context, userID uuid.UUID) (int
 		
 		return math.floor(new_tokens)
 	`
-	
+
 	refillPerSec := float64(l.capacity) / l.refill.Seconds()
 	now := time.Now().UnixMilli()
-	
+
 	result, err := l.client.Eval(ctx, script, []string{key}, l.capacity, refillPerSec, now).Result()
 	if err != nil {
 		return 0, fmt.Errorf("failed to get remaining tokens: %w", err)
 	}
-	
+
 	return int(result.(int64)), nil
 }
 

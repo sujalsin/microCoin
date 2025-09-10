@@ -61,9 +61,9 @@ type User struct {
 
 // Account represents a user's account for a specific currency
 type Account struct {
-	ID               uuid.UUID     `json:"id" db:"id"`
-	UserID           uuid.UUID     `json:"user_id" db:"user_id"`
-	Currency         Currency      `json:"currency" db:"currency"`
+	ID               uuid.UUID       `json:"id" db:"id"`
+	UserID           uuid.UUID       `json:"user_id" db:"user_id"`
+	Currency         Currency        `json:"currency" db:"currency"`
 	BalanceAvailable decimal.Decimal `json:"balance_available" db:"balance_available"`
 	BalanceHold      decimal.Decimal `json:"balance_hold" db:"balance_hold"`
 }
@@ -82,35 +82,35 @@ type LedgerEntry struct {
 
 // Order represents a trading order
 type Order struct {
-	ID        uuid.UUID       `json:"id" db:"id"`
-	UserID    uuid.UUID       `json:"user_id" db:"user_id"`
-	Symbol    Symbol          `json:"symbol" db:"symbol"`
-	Side      OrderSide       `json:"side" db:"side"`
-	Type      OrderType       `json:"type" db:"type"`
+	ID        uuid.UUID        `json:"id" db:"id"`
+	UserID    uuid.UUID        `json:"user_id" db:"user_id"`
+	Symbol    Symbol           `json:"symbol" db:"symbol"`
+	Side      OrderSide        `json:"side" db:"side"`
+	Type      OrderType        `json:"type" db:"type"`
 	Price     *decimal.Decimal `json:"price,omitempty" db:"price"`
-	Qty       decimal.Decimal `json:"qty" db:"qty"`
-	FilledQty decimal.Decimal `json:"filled_qty" db:"filled_qty"`
-	Status    OrderStatus     `json:"status" db:"status"`
-	CreatedAt time.Time       `json:"created_at" db:"created_at"`
+	Qty       decimal.Decimal  `json:"qty" db:"qty"`
+	FilledQty decimal.Decimal  `json:"filled_qty" db:"filled_qty"`
+	Status    OrderStatus      `json:"status" db:"status"`
+	CreatedAt time.Time        `json:"created_at" db:"created_at"`
 }
 
 // IdempotencyKey represents an idempotency key for request deduplication
 type IdempotencyKey struct {
-	ID                  uuid.UUID `json:"id" db:"id"`
-	UserID              uuid.UUID `json:"user_id" db:"user_id"`
-	IdemKey             string    `json:"idem_key" db:"idem_key"`
-	RequestFingerprint  string    `json:"request_fingerprint" db:"request_fingerprint"`
-	ResponseCode        int       `json:"response_code" db:"response_code"`
-	ResponseBody        []byte    `json:"response_body" db:"response_body"`
-	CreatedAt           time.Time `json:"created_at" db:"created_at"`
+	ID                 uuid.UUID `json:"id" db:"id"`
+	UserID             uuid.UUID `json:"user_id" db:"user_id"`
+	IdemKey            string    `json:"idem_key" db:"idem_key"`
+	RequestFingerprint string    `json:"request_fingerprint" db:"request_fingerprint"`
+	ResponseCode       int       `json:"response_code" db:"response_code"`
+	ResponseBody       []byte    `json:"response_body" db:"response_body"`
+	CreatedAt          time.Time `json:"created_at" db:"created_at"`
 }
 
 // OutboxEvent represents an event to be published
 type OutboxEvent struct {
-	ID          int64     `json:"id" db:"id"`
-	Topic       string    `json:"topic" db:"topic"`
-	Payload     []byte    `json:"payload" db:"payload"`
-	CreatedAt   time.Time `json:"created_at" db:"created_at"`
+	ID          int64      `json:"id" db:"id"`
+	Topic       string     `json:"topic" db:"topic"`
+	Payload     []byte     `json:"payload" db:"payload"`
+	CreatedAt   time.Time  `json:"created_at" db:"created_at"`
 	PublishedAt *time.Time `json:"published_at,omitempty" db:"published_at"`
 }
 
@@ -136,9 +136,9 @@ type Trade struct {
 
 // Portfolio represents a user's portfolio
 type Portfolio struct {
-	Balances []AccountBalance `json:"balances"`
+	Balances  []AccountBalance `json:"balances"`
 	Positions []Position       `json:"positions"`
-	PnL      PnL              `json:"pnl"`
+	PnL       PnL              `json:"pnl"`
 }
 
 // AccountBalance represents a balance for a specific currency
@@ -151,9 +151,9 @@ type AccountBalance struct {
 
 // Position represents a trading position
 type Position struct {
-	Symbol    Symbol          `json:"symbol"`
-	Qty       decimal.Decimal `json:"qty"`
-	AvgPrice  decimal.Decimal `json:"avg_price"`
+	Symbol        Symbol          `json:"symbol"`
+	Qty           decimal.Decimal `json:"qty"`
+	AvgPrice      decimal.Decimal `json:"avg_price"`
 	UnrealizedPnL decimal.Decimal `json:"unrealized_pnl"`
 }
 

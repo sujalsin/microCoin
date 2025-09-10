@@ -29,19 +29,19 @@ type TopUpResponse struct {
 
 // CreateOrderRequest represents an order creation request
 type CreateOrderRequest struct {
-	Symbol Symbol          `json:"symbol" validate:"required"`
-	Side   OrderSide       `json:"side" validate:"required"`
-	Type   OrderType       `json:"type" validate:"required"`
+	Symbol Symbol           `json:"symbol" validate:"required"`
+	Side   OrderSide        `json:"side" validate:"required"`
+	Type   OrderType        `json:"type" validate:"required"`
 	Price  *decimal.Decimal `json:"price,omitempty"`
-	Qty    decimal.Decimal `json:"qty" validate:"required,gt=0"`
+	Qty    decimal.Decimal  `json:"qty" validate:"required,gt=0"`
 }
 
 // CreateOrderResponse represents an order creation response
 type CreateOrderResponse struct {
-	OrderID       string          `json:"order_id"`
-	Status        OrderStatus     `json:"status"`
-	FilledQty     decimal.Decimal `json:"filled_qty"`
-	AvgFillPrice  *decimal.Decimal `json:"avg_fill_price,omitempty"`
+	OrderID      string           `json:"order_id"`
+	Status       OrderStatus      `json:"status"`
+	FilledQty    decimal.Decimal  `json:"filled_qty"`
+	AvgFillPrice *decimal.Decimal `json:"avg_fill_price,omitempty"`
 }
 
 // ErrorResponse represents an error response
@@ -58,15 +58,15 @@ type ErrorDetail struct {
 
 // Error codes
 const (
-	ErrorCodeRateLimit        = "RATE_LIMIT"
-	ErrorCodeBadRequest       = "BAD_REQUEST"
-	ErrorCodeUnauthorized     = "UNAUTHORIZED"
-	ErrorCodeForbidden        = "FORBIDDEN"
-	ErrorCodeNotFound         = "NOT_FOUND"
+	ErrorCodeRateLimit         = "RATE_LIMIT"
+	ErrorCodeBadRequest        = "BAD_REQUEST"
+	ErrorCodeUnauthorized      = "UNAUTHORIZED"
+	ErrorCodeForbidden         = "FORBIDDEN"
+	ErrorCodeNotFound          = "NOT_FOUND"
 	ErrorCodeInsufficientFunds = "INSUFFICIENT_FUNDS"
-	ErrorCodeIdemMismatch     = "IDEM_MISMATCH"
-	ErrorCodeInternalError    = "INTERNAL_ERROR"
-	ErrorCodeInvalidSymbol    = "INVALID_SYMBOL"
-	ErrorCodeInvalidOrderType = "INVALID_ORDER_TYPE"
-	ErrorCodeOrderNotFound    = "ORDER_NOT_FOUND"
+	ErrorCodeIdemMismatch      = "IDEM_MISMATCH"
+	ErrorCodeInternalError     = "INTERNAL_ERROR"
+	ErrorCodeInvalidSymbol     = "INVALID_SYMBOL"
+	ErrorCodeInvalidOrderType  = "INVALID_ORDER_TYPE"
+	ErrorCodeOrderNotFound     = "ORDER_NOT_FOUND"
 )

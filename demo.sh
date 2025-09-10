@@ -9,7 +9,7 @@ BASE_URL="http://localhost:8080"
 EMAIL="demo@example.com"
 PASSWORD="demopassword123"
 
-echo "🚀 MicroCoin Demo Starting..."
+echo "🚀 MicroCoin Paper Trading Demo"
 echo "================================"
 
 # Function to make HTTP requests
@@ -116,4 +116,4 @@ echo "✅ Limit order placement with idempotency"
 echo "✅ Order management and portfolio tracking"
 echo "✅ WebSocket real-time quotes"
 echo ""
-echo "The system is now ready for trading! 🚀"
+echo "MicroCoin is ready for paper trading! 🚀"

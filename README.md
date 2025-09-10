@@ -1,6 +1,6 @@
 # MicroCoin - Paper Trading Crypto Backend
 
-A small, dockerized backend that lets users:
+A comprehensive paper trading platform that lets users:
 - Sign up / log in (JWT)
 - Top-up "paper USD"
 - Stream real-time BTC/ETH quotes
@@ -9,17 +9,15 @@ A small, dockerized backend that lets users:
 
 ## 🏗️ Architecture
 
-### Phase 1: Monolith (Current)
-Single Go binary with internal packages for auth, ledger, limitbook, quotes, orders, idempotency, and rate limiting.
-
-### Phase 2: Microservices (Week 3)
-Split into 3 services:
-- **Gateway**: REST + WS, auth, rate limiting
-- **Quotes**: WS client → normalized ticks via Redis Pub/Sub
-- **TradeLedger**: orders, limit book, fills, ledger, idempotency & outbox
+A well-structured Go application with clean separation of concerns:
+- **Authentication**: JWT-based auth with Argon2id password hashing
+- **Trading Engine**: Limit order book with price-time priority matching
+- **Ledger System**: Double-entry bookkeeping for financial accuracy
+- **Real-time Data**: WebSocket streaming with Redis Pub/Sub
+- **Security**: Rate limiting, idempotency, and input validation
 
 ## 🛠️ Tech Stack
-- Go 1.21
+- Go 1.23
 - PostgreSQL 16
 - Redis 7
 - Docker Compose
@@ -35,7 +33,7 @@ Split into 3 services:
 make dev-setup
 ```
 
-2. **Run the monolith:**
+2. **Run the application:**
 ```bash
 make run
 ```
@@ -120,33 +118,34 @@ make test-coverage
 - [x] Comprehensive testing suite
 - [x] Docker Compose setup
 
-### 🔄 In Progress
-- [ ] Microservices split
+### 🔄 Future Enhancements
 - [ ] Real market data integration
+- [ ] Advanced order types (stop-loss, take-profit)
+- [ ] Portfolio analytics and reporting
+- [ ] Mobile app integration
+- [ ] Advanced charting and technical indicators
+
+## 🎯 Development Roadmap
+
+### Phase 1: Core Platform ✅
+- [x] Project setup and architecture
+- [x] Authentication and user management
+- [x] Double-entry ledger system
+- [x] Order management and matching
+- [x] Real-time quotes and WebSocket
+- [x] Comprehensive testing suite
+
+### Phase 2: Enhanced Features
+- [ ] Real market data feeds
 - [ ] Advanced order types
-- [ ] Performance optimization
+- [ ] Portfolio analytics
+- [ ] Performance optimizations
 
-## 🎯 Development Phases
-
-### Week 1-2: Monolith MVP ✅
-- [x] Project setup
-- [x] Auth system
-- [x] Basic ledger
-- [x] Market orders
-- [x] Real-time quotes
-- [x] Testing suite
-
-### Week 3: Service Split
-- [ ] Extract quotes service
-- [ ] Extract trade ledger service
-- [ ] Add Redis Pub/Sub
-- [ ] Outbox pattern
-
-### Week 4: Polish
-- [ ] Load testing
-- [ ] Performance optimization
-- [ ] Documentation
-- [ ] Demo preparation
+### Phase 3: Platform Extensions
+- [ ] Mobile API endpoints
+- [ ] Advanced charting
+- [ ] Social trading features
+- [ ] Risk management tools
 
 ## 🔧 Configuration
 
@@ -155,29 +154,31 @@ make test-coverage
 - `REDIS_URL` - Redis connection string
 - `JWT_SECRET` - JWT signing secret
 
-### Database
-The system uses PostgreSQL with the following key tables:
-- `users` - User accounts
-- `accounts` - Currency balances per user
-- `ledger_entries` - Double-entry bookkeeping
-- `orders` - Trading orders
-- `idempotency_keys` - Request deduplication
+### Database Schema
+The system uses PostgreSQL with a well-designed schema:
+- `users` - User accounts and authentication
+- `accounts` - Multi-currency balance tracking
+- `ledger_entries` - Double-entry bookkeeping for financial accuracy
+- `orders` - Trading order management
+- `idempotency_keys` - Request deduplication for safety
 
 ## 📈 Performance
 
-The system is designed to handle:
+The system is optimized for:
 - 100+ RPS for order placement
 - Sub-500ms response times (p95)
-- Real-time quote streaming
-- Concurrent user sessions
+- Real-time quote streaming via WebSocket
+- Concurrent user sessions with connection pooling
+- Efficient in-memory order book matching
 
 ## 🔒 Security
 
-- Argon2id password hashing
-- JWT token authentication
-- Rate limiting per user
-- Idempotency for financial operations
-- Input validation and sanitization
+- **Password Security**: Argon2id hashing with salt
+- **Authentication**: JWT tokens with short expiration
+- **Rate Limiting**: Per-user request throttling
+- **Idempotency**: Prevents duplicate financial operations
+- **Input Validation**: Comprehensive request sanitization
+- **SQL Injection Protection**: Parameterized queries
 
 ## 🐳 Docker
 
@@ -187,6 +188,28 @@ docker-compose up --build
 
 # Run in development mode
 make dev-setup
+```
+
+## 🏗️ Project Structure
+
+```
+microCoin/
+├── cmd/monolith/          # Main application entry point
+├── internal/              # Internal application packages
+│   ├── auth/             # Authentication and JWT handling
+│   ├── database/         # Database layer and repositories
+│   ├── ledger/           # Double-entry bookkeeping system
+│   ├── limitbook/        # Order book and matching engine
+│   ├── quotes/           # Real-time market data
+│   ├── orders/           # Order management and processing
+│   ├── idempotency/      # Request deduplication
+│   ├── rate/             # Rate limiting middleware
+│   └── models/           # Data models and types
+├── migrations/           # Database schema migrations
+├── tests/                # Comprehensive test suites
+├── load-test/            # Performance testing with k6
+├── docs/                 # Documentation and guides
+└── demo.sh              # Interactive demo script
 ```
 
 ## 📝 API Examples

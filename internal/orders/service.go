@@ -17,12 +17,12 @@ import (
 
 // Service handles order business logic
 type Service struct {
-	db              *sql.DB
-	orderRepo       *database.OrderRepository
-	accountRepo     *database.AccountRepository
-	ledgerService   *ledger.Service
-	quotesService   *quotes.Service
-	orderBooks      map[models.Symbol]*limitbook.OrderBook
+	db            *sql.DB
+	orderRepo     *database.OrderRepository
+	accountRepo   *database.AccountRepository
+	ledgerService *ledger.Service
+	quotesService *quotes.Service
+	orderBooks    map[models.Symbol]*limitbook.OrderBook
 }
 
 // NewService creates a new order service

@@ -1,10 +1,10 @@
 .PHONY: build run test clean docker-build docker-up docker-down migrate-up migrate-down
 
-# Build the monolith
+# Build the application
 build:
 	go build -o bin/microcoin ./cmd/monolith
 
-# Run the monolith
+# Run the application
 run: build
 	./bin/microcoin
 

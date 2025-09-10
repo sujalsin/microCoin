@@ -17,6 +17,7 @@ import (
 	"microcoin/internal/orders"
 
 	"github.com/google/uuid"
+	_ "github.com/lib/pq"
 	"github.com/shopspring/decimal"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -24,7 +25,6 @@ import (
 	"github.com/testcontainers/testcontainers-go/modules/postgres"
 	"github.com/testcontainers/testcontainers-go/modules/redis"
 	"github.com/testcontainers/testcontainers-go/wait"
-	_ "github.com/lib/pq"
 )
 
 func TestE2EFlow(t *testing.T) {
@@ -110,7 +110,7 @@ func TestE2EFlow(t *testing.T) {
 		accountRepo := database.NewAccountRepository(db)
 		usdAccount, err := accountRepo.GetAccountByUserIDAndCurrency(user.ID, models.CurrencyUSD)
 		require.NoError(t, err)
-		
+
 		expectedHold := decimal.NewFromFloat(500.0) // 0.01 * 50000
 		assert.True(t, usdAccount.BalanceHold.Equal(expectedHold))
 		assert.True(t, usdAccount.BalanceAvailable.Equal(decimal.NewFromFloat(500.0))) // 1000 - 500

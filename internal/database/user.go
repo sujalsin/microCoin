@@ -91,7 +91,7 @@ func (r *UserRepository) GetUserByID(id uuid.UUID) (*models.User, error) {
 // UserExists checks if a user exists by email
 func (r *UserRepository) UserExists(email string) (bool, error) {
 	query := `SELECT EXISTS(SELECT 1 FROM users WHERE email = $1)`
-	
+
 	var exists bool
 	err := r.db.QueryRow(query, email).Scan(&exists)
 	if err != nil {
